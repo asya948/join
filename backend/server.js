@@ -1,5 +1,4 @@
 import express from "express";
-import mysql from "mysql2/promise";
 import cors from "cors";
 import db from "./config/db.js";
 import 'dotenv/config'
@@ -51,16 +50,35 @@ app.get("/payments/:id", async (req, res) => {
 
 
 app.post("/payments", async (req, res) => {
-    const {id, student_id, amount, month} = req.body;
-    if (!id || !student_id || !amount || !month) {
+    const {id, student_id, amount, month, group} = req.body;
+    if (!id || !student_id || !amount || !month || !group) {
         return res.status(400).json({error: "Please fill all fields"});
     }
     const [result] = await db.query(
-        "INSERT INTO payments (id, student_id, amount, month) VALUES (?, ?, ?, ?)",
+        "INSERT INTO payments (id, student_id, amount, month, group) VALUES (?,?, ?, ?, ?)",
         [id, student_id, amount, month]
     );
-    res.json({id: result.insertId, student_id, amount, month});
+    res.json({id: result.insertId, student_id, amount, month, group});
 });
+
+
+
+// app.get("/students/join/inner", async (req, res) => {
+//     const {id} = req.body;
+//     if (!id) {
+//         return res.status(400).json({error: "Please fill all fields"});
+//     }
+//     const [result] = await db.query(
+//         "INSERT INTO payments (id, student_id, amount, month, group) VALUES (?)",
+//         [id]
+//     );
+//     res.json({id:result.insertId});
+// });
+
+
+
+
+
 
 app.listen(process.env.PORT||3000, () => {
     console.log(`Server started on port ${process.env.PORT}`);
