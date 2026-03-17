@@ -63,17 +63,17 @@ app.post("/payments", async (req, res) => {
 
 
 
-// app.get("/students/join/inner", async (req, res) => {
-//     const {id} = req.body;
-//     if (!id) {
-//         return res.status(400).json({error: "Please fill all fields"});
-//     }
-//     const [result] = await db.query(
-//         "INSERT INTO payments (id, student_id, amount, month, group) VALUES (?)",
-//         [id]
-//     );
-//     res.json({id:result.insertId});
-// });
+app.get("/students/join", async (req, res) => {
+    const {id} = req.body;
+    if (!id) {
+        return res.status(400).json({error: "Please fill all fields"});
+    }
+    const [result] = await db.query(
+        "INSERT INTO payments (id, student_id, amount, month, group) VALUES (?)",
+        [id]
+    );
+    res.json({id:result.insertId});
+});
 
 
 

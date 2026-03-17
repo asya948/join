@@ -28,8 +28,21 @@ fetch("http://localhost:3000/students").then(res => res.json()).then(data => {
                         </div>`).join('')
 })
 
+$("#tabs").onclick = function(event) {
+    let el = event.target.closest(".tabs");
+    if (!el) return;
 
+    let tab = +el.getAttribute("data-tab");
 
+    fetch("http://localhost:3000/students/join" + tab)
+        .then(res => res.json())
+        .then(data => {
+           $("#tabs").onclick = function(e) {
+                console.log(e.target.getAttribute("data-tab"));
+            }
+
+        });
+}
 
 
 
